@@ -30,17 +30,17 @@ $(document).ready(function () {
 
     // Request places from the API
     function fetchPlaces(data) {
-	$.ajax({
+        $.ajax({
             url: 'http://0.0.0.0:5001/api/v1/places_search/',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON, stringify({}),
-            success: function (data) {
+            data: JSON.stringify(data),
+            success: function (places) {
 	        const placesSection = $('section.places');
 	        placesSection.empty();
 
 	        // Loop through each place and create an article tag
-	        for (let place of data) {
+	        for (let place of places) {
 	            const article = $('<article></article>');
 	            const titlebox = $('<div class="title_box"></div>');
 	            titleBox.append('<h2>' + place.name + '</h2>');
@@ -60,18 +60,17 @@ $(document).ready(function () {
 	            article.append(description);
 
 
-	            placesSection.append(srticle);
+	            placesSection.append(article);
 	        }
 	    }
         });
-    }
-    
-    // Initial fetch with no filters
-    fetchPlaces({});
+      }
+      // Initial fetch with no filters
+      fetchPlaces({})
 
-    // Filter places when the search button is clicked
-    $('button').click(function () {
-        const amenities = Object.keys(selectedAmenities);
-        fetchPlaces({ amenities: amenities });
-    })
+      // Filter places when the search button is clicked
+      $('button').click(function () {
+          const amenities = Object.keys(selectedAmenities);
+          fetchPlaces({ amenities: amenities, });
+      });
 });
